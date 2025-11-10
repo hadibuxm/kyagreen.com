@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - KiyaGreen{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-kiya-green">Contact Us</h1>
+        <p class="lead text-muted">Get in touch with us for any inquiries</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="contact-info-box">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h5 class="text-kiya-green">Address</h5>
+                <p>{{ contact_info.address|default:"123 Green Street, Eco City" }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="contact-info-box">
+                <i class="bi bi-telephone-fill"></i>
+                <h5 class="text-kiya-green">Phone</h5>
+                <p>{{ contact_info.phone|default:"+1 234 567 8900" }}</p>
+                {% if contact_info.whatsapp %}
+                <p class="mb-0"><i class="bi bi-whatsapp text-success"></i> {{ contact_info.whatsapp }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="contact-info-box">
+                <i class="bi bi-envelope-fill"></i>
+                <h5 class="text-kiya-green">Email</h5>
+                <p>{{ contact_info.email|default:"info@kiyagreen.com" }}</p>
+                {% if contact_info.working_hours %}
+                <p class="small text-muted mb-0">{{ contact_info.working_hours }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-kiya-green text-white">
+                    <h4 class="mb-0"><i class="bi bi-envelope me-2"></i>Send us a Message</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" name="subject" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea name="message" class="form-control" rows="5" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-kiya-green">
+                                <i class="bi bi-send me-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            {% if contact_info.map_embed %}
+            <div class="card shadow h-100">
+                <div class="card-body p-0">
+                    {{ contact_info.map_embed|safe }}
+                </div>
+            </div>
+            {% else %}
+            <div class="card shadow h-100">
+                <div class="card-body d-flex align-items-center justify-content-center bg-kiya-cream">
+                    <div class="text-center">
+                        <i class="bi bi-map text-kiya-green" style="font-size: 4rem;"></i>
+                        <p class="text-muted mt-3">Map will be displayed here</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

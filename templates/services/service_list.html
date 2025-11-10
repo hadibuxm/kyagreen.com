@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services - KiyaGreen{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-kiya-green">Our Services</h1>
+        <p class="lead text-muted">Comprehensive solutions tailored to your business needs</p>
+    </div>
+
+    {% if services %}
+    <div class="row g-4">
+        {% for service in services %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                {% if service.image %}
+                <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                {% endif %}
+                <div class="card-body text-center">
+                    <div class="service-icon">
+                        <i class="bi {{ service.icon|default:'bi-gear' }}"></i>
+                    </div>
+                    <h4 class="card-title text-kiya-green">{{ service.title }}</h4>
+                    <p class="card-text text-muted">{{ service.short_description }}</p>
+                    <a href="{% url 'services:detail' service.slug %}" class="btn btn-outline-kiya-green">
+                        Learn More <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">No services available at the moment.</div>
+    {% endif %}
+</div>
+{% endblock %}

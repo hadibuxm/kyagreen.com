@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ info_page.title }} - KiyaGreen{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="fw-bold text-kiya-green text-center mb-4">{{ info_page.title }}</h1>
+
+            {% if info_page.image %}
+            <img src="{{ info_page.image.url }}" class="img-fluid rounded shadow mb-4" alt="{{ info_page.title }}">
+            {% endif %}
+
+            <div class="card mb-4">
+                <div class="card-body p-4">
+                    {{ info_page.content|safe }}
+                </div>
+            </div>
+
+            {% if info_page.mission %}
+            <div class="card mb-4 border-success">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="bi bi-bullseye me-2"></i>Our Mission</h4>
+                </div>
+                <div class="card-body">
+                    {{ info_page.mission|safe }}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if info_page.vision %}
+            <div class="card mb-4 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-eye me-2"></i>Our Vision</h4>
+                </div>
+                <div class="card-body">
+                    {{ info_page.vision|safe }}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{% url 'contact' %}" class="btn btn-kiya-green btn-lg">
+                    <i class="bi bi-envelope me-2"></i>Get in Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

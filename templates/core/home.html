@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ homepage.title|default:"KiyaGreen - Home" }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-3">
+                    {% if homepage %}
+                        {{ homepage.title }}
+                    {% else %}
+                        Welcome to KiyaGreen
+                    {% endif %}
+                </h1>
+                <p class="lead mb-4">
+                    {% if homepage %}
+                        {{ homepage.subtitle }}
+                    {% else %}
+                        Your trusted partner for eco-friendly and sustainable solutions
+                    {% endif %}
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'products:list' %}" class="btn btn-light btn-lg">
+                        <i class="bi bi-box-seam me-2"></i>Browse Products
+                    </a>
+                    <a href="{% url 'rfq:create' %}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-file-text me-2"></i>Get Quote
+                    </a>
+                </div>
+            </div>
+            {% if homepage.hero_image %}
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <img src="{{ homepage.hero_image.url }}" alt="{{ homepage.title }}" class="img-fluid rounded shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Section -->
+{% if homepage and homepage.content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        {{ homepage.content|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Welcome Section -->
+{% if homepage and homepage.welcome_section %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        {{ homepage.welcome_section|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Products Section -->
+{% if featured_products %}
+<section class="py-5 bg-kiya-cream">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-kiya-green">Featured Products</h2>
+            <p class="text-muted">Check out our most popular eco-friendly products</p>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card product-card h-100">
+                    {% if product.is_featured %}
+                    <span class="badge badge-featured position-absolute top-0 end-0 m-2">Featured</span>
+                    {% endif %}
+                    <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted small">{{ product.short_description|truncatewords:15 }}</p>
+                        {% if product.price %}
+                        <p class="text-kiya-green fw-bold fs-5">${{ product.price }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'products:detail' product.slug %}" class="btn btn-outline-kiya-green btn-sm">
+                                <i class="bi bi-eye me-1"></i>View Details
+                            </a>
+                            <a href="{% url 'rfq:create_for_product' product.id %}" class="btn btn-kiya-green btn-sm">
+                                <i class="bi bi-file-text me-1"></i>Request Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'products:list' %}" class="btn btn-kiya-green">
+                View All Products <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Services Section -->
+{% if services %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-kiya-green">Our Services</h2>
+            <p class="text-muted">Comprehensive solutions tailored to your needs</p>
+        </div>
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="service-icon">
+                            {% if service.icon %}
+                            <i class="bi {{ service.icon }}"></i>
+                            {% else %}
+                            <i class="bi bi-gear"></i>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title text-kiya-green">{{ service.title }}</h5>
+                        <p class="card-text text-muted">{{ service.short_description }}</p>
+                        <a href="{% url 'services:detail' service.slug %}" class="btn btn-outline-kiya-green btn-sm">
+                            Learn More <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'services:list' %}" class="btn btn-kiya-green">
+                View All Services <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="bg-kiya-green text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-2">Ready to Get Started?</h3>
+                <p class="mb-0">Request a quote today and discover how we can help your business grow sustainably.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <a href="{% url 'rfq:create' %}" class="btn btn-light btn-lg">
+                    <i class="bi bi-file-text me-2"></i>Request a Quote
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
