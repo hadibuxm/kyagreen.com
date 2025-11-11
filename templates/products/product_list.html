@@ -79,7 +79,7 @@
             {% if products %}
             <div class="row g-4">
                 {% for product in products %}
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-2">
                     <div class="card product-card h-100">
                         {% if product.is_featured %}
                         <span class="badge badge-featured">Featured</span>
@@ -91,8 +91,8 @@
                              class="card-img-top"
                              alt="{{ product.name }}"
                              loading="lazy"
-                             width="300"
-                             height="300">
+                             width="150"
+                             height="150">
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text text-muted small">{{ product.short_description|truncatewords:10 }}</p>
