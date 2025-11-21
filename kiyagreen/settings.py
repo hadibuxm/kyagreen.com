@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-frebk)#u1^jzk_$1%+^l$x#+rz*qfhtzm5%76wv34zs%9po9rw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "products",
     "services",
     "rfq",
+    "forms",
 ]
 
 MIDDLEWARE = [

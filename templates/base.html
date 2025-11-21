@@ -40,6 +40,9 @@
                         <a class="nav-link {% if 'services' in request.path %}active{% endif %}" href="{% url 'services:list' %}">Services</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if 'forms' in request.path %}active{% endif %}" href="{% url 'forms:list' %}">Forms</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
                     </li>
                     <li class="nav-item">
