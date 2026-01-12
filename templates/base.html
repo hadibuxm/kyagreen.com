@@ -67,6 +67,31 @@
     </div>
     {% endif %}
 
+    <!-- WeChat QR Code Modal -->
+    <div class="modal fade" id="wechatModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="bi bi-wechat text-success me-2"></i>Connect on WeChat
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    {% if contact_info.wechat_qr %}
+                        <img src="{{ contact_info.wechat_qr.url }}" alt="WeChat QR Code" class="img-fluid rounded" style="max-width: 300px;">
+                        <p class="mt-3 text-muted small">Scan this QR code with WeChat to connect with us</p>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            WeChat QR code is not available yet. Please try again later.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Fixed Side Contact Panel -->
     <div class="fixed-contact-panel">
         <a href="tel:+8615669939572" class="contact-icon-btn phone-btn" title="Call Us">
@@ -75,7 +100,7 @@
         <a href="https://wa.me/923316378201" target="_blank" class="contact-icon-btn whatsapp-btn" title="WhatsApp">
             <i class="bi bi-whatsapp"></i>
         </a>
-        <a href="weixin://" class="contact-icon-btn wechat-btn" title="WeChat">
+        <a href="#" class="contact-icon-btn wechat-btn" data-bs-toggle="modal" data-bs-target="#wechatModal" title="WeChat">
             <i class="bi bi-wechat"></i>
         </a>
         <a href="mailto:info@kyagreen.com" class="contact-icon-btn email-btn" title="Email Us">

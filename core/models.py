@@ -64,6 +64,7 @@ class ContactInfo(models.Model):
     phone = models.CharField(max_length=50)
     email = models.EmailField()
     whatsapp = models.CharField(max_length=50, blank=True)
+    wechat_qr = models.ImageField(upload_to='contact/', blank=True, null=True, help_text="WeChat QR code image")
     working_hours = models.CharField(max_length=200, blank=True)
     map_embed = models.TextField(blank=True, help_text="Google Maps embed code")
 

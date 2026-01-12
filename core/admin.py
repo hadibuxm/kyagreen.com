@@ -43,6 +43,10 @@ class ContactInfoAdmin(admin.ModelAdmin):
         ('Contact Details', {
             'fields': ('address', 'phone', 'email', 'whatsapp', 'working_hours')
         }),
+        ('WeChat', {
+            'fields': ('wechat_qr',),
+            'description': 'Upload your WeChat QR code image. Customers can scan this from the WeChat icon in the sidebar.'
+        }),
         ('Map', {
             'fields': ('map_embed',)
         }),
