@@ -2,6 +2,35 @@ from django.db import models
 from ckeditor.fields import RichTextField
 
 
+class SiteSettings(models.Model):
+    """Model for site-wide settings like logo"""
+    logo = models.ImageField(
+        upload_to='site/',
+        blank=True,
+        null=True,
+        help_text="Upload your site logo here (PNG or JPG recommended)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Site Settings"
+        verbose_name_plural = "Site Settings"
+
+    def __str__(self):
+        return "Site Settings"
+
+    def save(self, *args, **kwargs):
+        # Single instance model
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+
 class HomePage(models.Model):
     """Model for managing homepage content"""
     title = models.CharField(max_length=200, default="Welcome to KiyaGreen")

@@ -1,5 +1,23 @@
 from django.contrib import admin
-from .models import HomePage, InformationPage, ContactInfo
+from .models import HomePage, InformationPage, ContactInfo, SiteSettings
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Site Logo', {
+            'fields': ('logo',),
+            'description': 'Upload your site logo here. It will be displayed in the header.'
+        }),
+    )
+
+    def has_add_permission(self, request):
+        # Only allow one instance
+        return not SiteSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        # Don't allow deletion
+        return False
 
 
 @admin.register(HomePage)
