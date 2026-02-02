@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results - KYA Green{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="mb-3">Search Results</h1>
+                {% if query %}
+                    <p class="text-muted mb-0">
+                        <strong>Query:</strong> "{{ query }}"
+                        {% if total_results > 0 %}
+                            <span class="ms-2">(<strong>{{ total_results }}</strong> result{{ total_results|pluralize }})</span>
+                        {% else %}
+                            <span class="ms-2 text-warning">No results found</span>
+                        {% endif %}
+                    </p>
+                {% else %}
+                    <p class="text-muted">Please enter a search term above.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if query %}
+            <!-- Products Section -->
+            {% if products %}
+            <div class="row mb-5">
+                <div class="col-lg-10 mx-auto">
+                    <h3 class="text-kiya-green mb-4">
+                        <i class="bi bi-box-seam me-2"></i>Products
+                        <span class="badge bg-kiya-green">{{ products|length }}</span>
+                    </h3>
+                    <div class="row g-4">
+                        {% for product in products %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card product-card h-100">
+                                {% if product.is_featured %}
+                                <span class="badge badge-featured position-absolute top-0 end-0 m-2">Featured</span>
+                                {% endif %}
+                                <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text text-muted small">{{ product.short_description|truncatewords:15 }}</p>
+                                    {% if product.price %}
+                                    <p class="text-kiya-green fw-bold fs-5">${{ product.price }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <div class="d-grid gap-2">
+                                        <a href="{% url 'products:detail' product.slug %}" class="btn btn-outline-kiya-green btn-sm">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </a>
+                                        <a href="{% url 'rfq:create_for_product' product.id %}" class="btn btn-kiya-green btn-sm">
+                                            <i class="bi bi-file-text me-1"></i>Request Quote
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Services Section -->
+            {% if services %}
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h3 class="text-kiya-green mb-4">
+                        <i class="bi bi-gear me-2"></i>Services
+                        <span class="badge bg-kiya-green">{{ services|length }}</span>
+                    </h3>
+                    <div class="row g-4">
+                        {% for service in services %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="service-icon">
+                                        {% if service.icon %}
+                                        <i class="bi {{ service.icon }}"></i>
+                                        {% else %}
+                                        <i class="bi bi-gear"></i>
+                                        {% endif %}
+                                    </div>
+                                    <h5 class="card-title text-kiya-green">{{ service.title }}</h5>
+                                    <p class="card-text text-muted">{{ service.short_description|truncatewords:20 }}</p>
+                                    <a href="{% url 'services:detail' service.slug %}" class="btn btn-outline-kiya-green btn-sm">
+                                        Learn More <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- No Results Message -->
+            {% if not products and not services %}
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-search" style="font-size: 48px; opacity: 0.5;"></i>
+                        <h4 class="mt-3 mb-2">No results found</h4>
+                        <p class="text-muted mb-0">We couldn't find any products or services matching "{{ query }}". Please try a different search term or browse our <a href="{% url 'products:list' %}">full product catalog</a>.</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-search" style="font-size: 48px; opacity: 0.5;"></i>
+                        <h4 class="mt-3 mb-2">Search for Products & Services</h4>
+                        <p class="text-muted mb-0">Use the search bar at the top to find products and services that match your needs.</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="bg-kiya-green text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-2">Ready to Get Started?</h3>
+                <p class="mb-0">Request a quote today and discover how we can help your business grow sustainably.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <a href="{% url 'rfq:create' %}" class="btn btn-light btn-lg">
+                    <i class="bi bi-file-text me-2"></i>Request a Quote
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

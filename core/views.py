@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
 from .models import HomePage, InformationPage, ContactInfo
 from products.models import Product, Category
 from services.models import Service
@@ -28,6 +28,41 @@ def home(request):
         'trending_products': trending_products,
     }
     return render(request, 'core/home.html', context)
+
+
+def search(request):
+    """Global search for products and services"""
+    query = request.GET.get('q', '').strip()
+    products = []
+    services = []
+    
+    if query:
+        # Search products
+        products = Product.objects.filter(
+            is_active=True
+        ).filter(
+            Q(name__icontains=query) |
+            Q(short_description__icontains=query) |
+            Q(description__icontains=query) |
+            Q(sku__icontains=query)
+        ).distinct()[:12]
+        
+        # Search services
+        services = Service.objects.filter(
+            is_active=True
+        ).filter(
+            Q(title__icontains=query) |
+            Q(short_description__icontains=query) |
+            Q(description__icontains=query)
+        ).distinct()[:12]
+    
+    context = {
+        'query': query,
+        'products': products,
+        'services': services,
+        'total_results': len(products) + len(services),
+    }
+    return render(request, 'core/search_results.html', context)
 
 
 def information(request):
