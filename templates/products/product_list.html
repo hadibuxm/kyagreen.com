@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load core_tags %}
 
 {% block title %}Products - KYA Green{% endblock %}
 
 {% block content %}
+<!-- DEBUG: Template context data -->
+<script>
+    console.log('=== PRODUCT LIST TEMPLATE DEBUG ===');
+    console.log('Selected Category:', '{{ selected_category.name|default:"None" }}');
+    console.log('Products Count:', {{ products.count }});
+    console.log('All Products:', [
+        {% for product in products %}'{{ product.name }}',{% endfor %}
+    ]);
+    console.log('===================================');
+</script>
 <div class="container-fluid">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mt-3">
@@ -26,26 +37,7 @@
                             <i class="bi bi-grid"></i>All Products
                         </a>
                     </li>
-                    {% for category in categories %}
-                    <li>
-                        <a href="{% url 'products:category' category.slug %}"
-                           class="category-filter {% if selected_category.id == category.id %}active{% endif %}">
-                            <i class="bi bi-tag"></i>{{ category.name }}
-                        </a>
-                        {% if category.children.all %}
-                        <ul class="category-list ms-3 mt-2">
-                            {% for child in category.children.all %}
-                            <li>
-                                <a href="{% url 'products:category' child.slug %}"
-                                   class="category-filter {% if selected_category.id == child.id %}active{% endif %}">
-                                    {{ child.name }}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
+                    {% render_category_tree categories selected_category %}
                 </ul>
             </div>
 

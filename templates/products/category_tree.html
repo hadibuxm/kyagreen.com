@@ -1,0 +1,13 @@
+{% for category in categories %}
+<li>
+    <a href="{% url 'products:category' category.slug %}"
+       class="category-filter {% if selected_category.id == category.id %}active{% endif %}">
+        <i class="bi bi-tag"></i>{{ category.name }}
+    </a>
+    {% if category.children.all %}
+    <ul class="category-list ms-3 mt-2">
+        {% include 'products/category_tree_children.html' with categories=category.children.all selected_category=selected_category %}
+    </ul>
+    {% endif %}
+</li>
+{% endfor %}

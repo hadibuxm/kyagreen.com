@@ -27,26 +27,12 @@ $(document).ready(function() {
         });
     });
 
-    // Category filter
+    // Category filter - Removed client-side filtering
+    // The server-side filtering now handles this via URL routing
+    // Links in /products/category/<slug>/ will properly filter products
     $('.category-filter').on('click', function(e) {
-        e.preventDefault();
-        $('.category-filter').removeClass('active');
-        $(this).addClass('active');
-
-        var categoryId = $(this).data('category');
-
-        if (categoryId === 'all') {
-            $('.product-card').parent().show();
-        } else {
-            $('.product-card').each(function() {
-                var productCategory = $(this).data('category');
-                if (productCategory == categoryId) {
-                    $(this).parent().show();
-                } else {
-                    $(this).parent().hide();
-                }
-            });
-        }
+        // Allow the link to navigate naturally - no preventDefault!
+        console.log('Category filter clicked:', $(this).attr('href'));
     });
 
     // RFQ Modal - Populate product info

@@ -2,30 +2,51 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q
 from .models import Product, Category
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def product_list(request, slug=None):
     """Product listing with category filtering"""
+    print(f"\n{'='*60}")
+    print(f"📝 PRODUCT LIST VIEW CALLED")
+    print(f"{'='*60}")
+    print(f"📌 Received slug parameter: {slug}")
+    print(f"📌 Request path: {request.path}")
+    print(f"📌 Request GET params: {request.GET}")
+    
     products = Product.objects.filter(is_active=True)
     categories = Category.objects.filter(is_active=True, parent=None)
     selected_category = None
 
+    print(f"✅ Total active products: {products.count()}")
+    print(f"✅ Total parent categories: {categories.count()}")
+
     # Filter by category if slug is provided
     if slug:
+        print(f"\n🔍 FILTERING BY CATEGORY: {slug}")
         selected_category = get_object_or_404(Category, slug=slug, is_active=True)
-        # Get products from selected category and its children
-        category_ids = [selected_category.id]
-        category_ids.extend(selected_category.children.values_list('id', flat=True))
-        products = products.filter(category__id__in=category_ids)
+        print(f"   ✅ Found category: {selected_category.name} (ID: {selected_category.id})")
+        
+        # Get products from selected category only
+        products = products.filter(category=selected_category)
+        print(f"   ✅ Products after filter: {products.count()}")
+        for p in products:
+            print(f"      - {p.name}")
+    else:
+        print(f"\n⚪ NO CATEGORY FILTER - showing all products")
 
     # Search functionality
     search_query = request.GET.get('q', '')
     if search_query:
+        print(f"\n🔎 SEARCH QUERY: '{search_query}'")
         products = products.filter(
             Q(name__icontains=search_query) |
             Q(description__icontains=search_query) |
             Q(short_description__icontains=search_query)
         )
+        print(f"   ✅ Products after search: {products.count()}")
 
     context = {
         'products': products,
@@ -33,6 +54,13 @@ def product_list(request, slug=None):
         'selected_category': selected_category,
         'search_query': search_query,
     }
+    
+    print(f"\n📤 RENDERING TEMPLATE WITH:")
+    print(f"   - Total products: {context['products'].count()}")
+    print(f"   - Selected category: {context['selected_category'].name if context['selected_category'] else 'None'}")
+    print(f"   - Search query: '{search_query}'")
+    print(f"{'='*60}\n")
+    
     return render(request, 'products/product_list.html', context)
 
 
