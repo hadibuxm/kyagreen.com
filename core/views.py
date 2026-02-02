@@ -1,20 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db.models import Count
 from .models import HomePage, InformationPage, ContactInfo
-from products.models import Product
+from products.models import Product, Category
 from services.models import Service
 
 
 def home(request):
-    """Homepage view with featured products and services"""
+    """Homepage view with featured products, categories, and trending products"""
     homepage = HomePage.load()
     featured_products = Product.objects.filter(is_active=True, is_featured=True)[:6]
     services = Service.objects.filter(is_active=True)[:3]
+    
+    # Get major categories (parent categories only)
+    categories = Category.objects.filter(is_active=True, parent__isnull=True).order_by('order')[:8]
+    
+    # Get trending products - products with most RFQ requests
+    trending_products = Product.objects.filter(is_active=True).annotate(
+        rfq_count=Count('rfq_requests')
+    ).order_by('-rfq_count')[:6]
 
     context = {
         'homepage': homepage,
         'featured_products': featured_products,
         'services': services,
+        'categories': categories,
+        'trending_products': trending_products,
     }
     return render(request, 'core/home.html', context)
 

@@ -90,9 +90,13 @@ main {
 .hero-section {
     background: linear-gradient(135deg, var(--kiya-green) 0%, var(--kiya-green-light) 100%);
     color: white;
-    padding: 80px 0;
+    padding: 0;
     position: relative;
     overflow: hidden;
+}
+
+.bg-kiya-green-hero {
+    background: linear-gradient(135deg, var(--kiya-green) 0%, var(--kiya-green-light) 100%);
 }
 
 .hero-section::before {

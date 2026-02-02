@@ -31,12 +31,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <div class="flex-grow-1 mx-4 order-lg-2">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Enter a Key Word to Search Products and Services." aria-label="Search">
+                        <button class="btn btn-light" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <ul class="navbar-nav ms-auto order-lg-3">
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'information' %}active{% endif %}" href="{% url 'information' %}">Information</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'information' %}active{% endif %}" href="{% url 'information' %}">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if 'products' in request.path %}active{% endif %}" href="{% url 'products:list' %}">Products</a>
