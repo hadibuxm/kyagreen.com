@@ -8,7 +8,7 @@ class SiteSettings(models.Model):
         upload_to='site/',
         blank=True,
         null=True,
-        help_text="Upload your site logo here (PNG or JPG recommended)"
+        help_text="Upload your site logo here. Recommended: 200px height or larger, PNG with transparent background (JPEG also supported), max width ~400px"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -19,6 +19,10 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return "Site Settings"
+
+    def has_logo(self):
+        """Check if logo exists and has a valid file"""
+        return bool(self.logo)
 
     def save(self, *args, **kwargs):
         # Single instance model
