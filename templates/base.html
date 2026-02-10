@@ -21,11 +21,11 @@
         <div class="container-fluid px-3">
             <a class="navbar-brand fw-bold fs-4 d-flex align-items-center" href="{% url 'home' %}">
                 {% if site_settings.logo %}
-                    <img src="{{ site_settings.logo.url }}" alt="KYA Green Logo" class="me-2" style="max-height: 40px; object-fit: contain;">
+                    <img src="{{ site_settings.logo.url }}" alt="KYA Green Logo" style="max-height: 40px; object-fit: contain;">
                 {% else %}
                     <i class="bi bi-leaf-fill me-2"></i>
+                    KYA Green
                 {% endif %}
-                KYA Green
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

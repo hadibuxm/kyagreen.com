@@ -571,3 +571,17 @@ footer .social-links a:hover {
         }
     }
 }
+
+/* Search Bar - Smaller Size */
+.navbar-collapse .input-group {
+    max-width: 300px;
+}
+
+.navbar-collapse .form-control {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+}
+
+.navbar-collapse .input-group .btn {
+    padding: 0.4rem 0.75rem;
+}
