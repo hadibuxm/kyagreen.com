@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^source venv/bin/activate && python manage\\.py migrate core$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
