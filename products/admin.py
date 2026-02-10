@@ -75,7 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'slug', 'sku', 'category', 'main_image')
+            'fields': ('name', 'slug', 'sku', 'category', 'company', 'main_image')
         }),
         ('Description', {
             'fields': ('short_description', 'description', 'specifications')

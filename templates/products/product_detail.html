@@ -50,6 +50,13 @@
         <div class="col-lg-6">
             <h1 class="fw-bold text-kiya-green">{{ product.name }}</h1>
 
+            {% if product.company %}
+            <p class="text-muted mb-2">
+                <i class="bi bi-building me-1"></i>
+                <strong>Company:</strong> {{ product.company }}
+            </p>
+            {% endif %}
+
             {% if product.sku %}
             <p class="text-muted">SKU: {{ product.sku }}</p>
             {% endif %}

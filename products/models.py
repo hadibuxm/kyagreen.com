@@ -46,6 +46,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     sku = models.CharField(max_length=100, unique=True, blank=True, help_text="Stock Keeping Unit")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')
+    company = models.CharField(max_length=200, blank=True, help_text="Company or manufacturer name")
     short_description = models.TextField(max_length=500, blank=True)
     description = RichTextField()
     specifications = RichTextField(blank=True, help_text="Technical specifications")
