@@ -25,6 +25,13 @@ class Category(models.Model):
         ordering = ['order', 'name']
 
     def __str__(self):
+        return self.get_hierarchical_name()
+
+    def get_hierarchical_name(self):
+        """Return category name with hierarchy indentation"""
+        if self.parent:
+            parent_name = self.parent.get_hierarchical_name()
+            return f"{parent_name} → {self.name}"
         return self.name
 
     def save(self, *args, **kwargs):
